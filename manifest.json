@@ -1,7 +1,6 @@
 {
-  "name": "BookGadi Booking Note",
+  "name": "BookGadi",
   "short_name": "BookGadi",
-  "description": "Generate Booking Notes for AZM-LKO Express",
   "start_url": "/bookgadi-Booking-Note/",
   "display": "standalone",
   "background_color": "#002b5c",
@@ -10,12 +9,6 @@
     {
       "src": "https://static.wixstatic.com/media/843689_96e5733ee867434ebc36b1205fc1ddc4~mv2.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://static.wixstatic.com/media/843689_96e5733ee867434ebc36b1205fc1ddc4~mv2.png",
-      "sizes": "192x192",
       "type": "image/png"
     }
   ]
