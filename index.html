@@ -29,23 +29,15 @@
         .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 15px; }
 
         .section-title { margin: 20px 0 10px; font-size: 16px; font-weight: bold; color: var(--primary); }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; border: 2px solid transparent; cursor: pointer; transition: 0.3s; position: relative; }
+        .card { background: white; border-radius: 15px; padding: 12px 15px; margin-bottom: 10px; display: flex; align-items: center; border: 2px solid transparent; cursor: pointer; transition: 0.3s; position: relative; }
         .card.active { border-color: var(--accent); background: #fffcf5; }
-        .card-icon { font-size: 24px; margin-right: 15px; background: #f0f4f8; padding: 10px; border-radius: 12px; }
-        .card-info { flex: 1; }
+        .card-icon { font-size: 20px; margin-right: 15px; background: #f0f4f8; padding: 8px; border-radius: 10px; }
+        .card-info { flex: 1; font-size: 14px; }
         
-        .card-price-input { width: 85px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-weight: bold; color: var(--primary); text-align: center; }
-
-        #seatSection { display: none; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; border: 1px solid #ddd; }
-        .car-layout { max-width: 220px; margin: auto; background: #f8f9fa; padding: 20px; border-radius: 30px 30px 15px 15px; border: 3px solid #ccc; position: relative; }
-        .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .seat { width: 45px; height: 45px; background: white; border: 2px solid #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; font-weight: bold; }
-        .seat.selected { background: var(--secondary); color: white; border-color: #128C7E; }
-        .driver-seat { background: #333; color: white; border: none; cursor: default; }
+        .card-price-input { width: 90px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-weight: bold; color: var(--primary); text-align: center; }
 
         .hidden-box { display: none; background: #eef7ff; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px dashed var(--primary); }
 
-        /* Floating Install Button */
         #pwa-install-btn { display: none; position: fixed; top: 15px; right: 15px; background: var(--accent); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 2000; cursor: pointer; }
 
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); text-align: center; z-index: 1000; }
@@ -66,22 +58,23 @@
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1;">
                     <label>CUSTOMER NAME</label>
-                    <input type="text" id="custName" placeholder="Full Name">
+                    <input type="text" id="custName" placeholder="Name">
                 </div>
                 <div class="input-group" style="flex: 1;">
                     <label>MOBILE NUMBER</label>
-                    <input type="tel" id="custMobile" placeholder="Phone No.">
+                    <input type="tel" id="custMobile" placeholder="Phone">
                 </div>
             </div>
 
             <div class="input-group">
                 <label>KAHAN SE (PICKUP)</label>
-                <input type="text" id="pickup" placeholder="Enter City">
+                <input type="text" id="pickup" placeholder="Pickup City">
             </div>
             <div class="input-group">
                 <label>KAHAN TAK (DROP)</label>
-                <input type="text" id="drop" placeholder="Enter Destination">
+                <input type="text" id="drop" placeholder="Drop Destination">
             </div>
+            
             <div style="display: flex; gap: 10px;">
                 <div class="input-group" style="flex: 1.5;">
                     <label>TARIKH (DATE)</label>
@@ -111,30 +104,20 @@
 
         <div class="card" onclick="updateService('One Way Full', 'oneway', this)">
             <div class="card-icon">🚗</div>
-            <div class="card-info"><strong>One Way</strong></div>
+            <div class="card-info"><strong>One Way Full</strong></div>
             <input type="number" class="card-price-input" id="p_oneway" placeholder="₹ Amount" onclick="event.stopPropagation()">
+        </div>
+
+        <div class="card" onclick="updateService('Round Trip', 'round', this)">
+            <div class="card-icon">🔄</div>
+            <div class="card-info"><strong>Round Trip</strong></div>
+            <input type="number" class="card-price-input" id="p_round" placeholder="₹ Amount" onclick="event.stopPropagation()">
         </div>
 
         <div class="card" onclick="updateService('Airport Transfer', 'airport', this)">
             <div class="card-icon">✈️</div>
             <div class="card-info"><strong>Airport Transfer</strong></div>
             <input type="number" class="card-price-input" id="p_airport" placeholder="₹ Amount" onclick="event.stopPropagation()">
-        </div>
-
-        <div id="seatSection" style="display:block;">
-            <div class="car-layout">
-                <div class="car-grid">
-                    <div class="seat" onclick="toggleSeat('S1', this)">S1</div>
-                    <div></div>
-                    <div class="seat driver-seat">Driver</div> 
-                    <div class="seat" onclick="toggleSeat('M1', this)">M1</div>
-                    <div class="seat" onclick="toggleSeat('M2', this)">M2</div>
-                    <div class="seat" onclick="toggleSeat('M3', this)">M3</div>
-                    <div></div>
-                    <div class="seat" onclick="toggleSeat('B1', this)">B1</div>
-                    <div class="seat" onclick="toggleSeat('B2', this)">B2</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -143,14 +126,13 @@
     </div>
 
     <script>
-        // PWA Logic with Button
         let deferredPrompt;
         const installBtn = document.getElementById('pwa-install-btn');
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.style.display = 'block'; // Show button when installable
+            installBtn.style.display = 'block';
         });
 
         function triggerInstall() {
@@ -169,24 +151,14 @@
             });
         }
 
-        let selectedService = "Shared Seat", selectedSeats = [], serviceType = 'shared';
+        let selectedService = "Shared Seat", serviceType = 'shared';
 
         function updateService(name, type, el) {
-            selectedService = name; serviceType = type;
+            selectedService = name; 
+            serviceType = type;
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
-            document.getElementById('seatSection').style.display = (type === 'shared') ? 'block' : 'none';
             document.getElementById('airportBox').style.display = (type === 'airport') ? 'block' : 'none';
-        }
-
-        function toggleSeat(s, el) {
-            if (el.classList.contains('selected')) {
-                el.classList.remove('selected');
-                selectedSeats = selectedSeats.filter(i => i !== s);
-            } else {
-                el.classList.add('selected');
-                selectedSeats.push(s);
-            }
         }
 
         function confirmBooking() {
@@ -202,20 +174,19 @@
                 alert("Kripya saari details bharein!"); return;
             }
 
-            const hour = parseInt(time.split(':')[0]);
-            if(serviceType === 'shared' && (hour < 6 || hour >= 20)) {
-                alert("6 AM se pehle Shared booking nahi हो सकती!"); return;
-            }
-
-            let message = `*BOOKING NOTE*%0A-----------------------%0A`;
-            message += `*Customer:* ${name}%0A`;
-            message += `*Mobile:* ${mobile}%0A`;
-            message += `*Route:* ${pickup} to ${drop}%0A`;
-            message += `*Date:* ${date}%0A*Time:* ${time}%0A`;
-            message += `*Amount:* ₹${amount}%0A`;
-            message += `*Service:* ${selectedService}%0A`;
-            if(serviceType === 'shared') message += `*Seats:* ${selectedSeats.join(', ')}%0A`;
-            message += `-----------------------`;
+            // WhatsApp Message Formatting
+            let message = `*BOOKING NOTE*%0A`;
+            message += `-----------------------%0A`;
+            message += `📲 https://static.wixstatic.com/media/843689_96e5733ee867434ebc36b1205fc1ddc4~mv2.png%0A%0A`;
+            message += `👤 *Customer:* ${name}%0A`;
+            message += `📞 *Mobile:* ${mobile}%0A`;
+            message += `📍 *Route:* ${pickup} to ${drop}%0A`;
+            message += `📅 *Date:* ${date}%0A`;
+            message += `⏰ *Time:* ${time}%0A`;
+            message += `💰 *Amount:* ₹${amount}%0A`;
+            message += `✅ *Service:* ${selectedService}%0A`;
+            message += `-----------------------%0A`;
+            message += `*BookGadi.com* - Wish you a happy journey!`;
 
             window.open(`https://wa.me/919651191446?text=${message}`, '_blank');
         }
