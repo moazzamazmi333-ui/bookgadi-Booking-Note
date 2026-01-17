@@ -9,7 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background: var(--bg); color: #333; padding-bottom: 100px; }
 
-        .header { background: var(--primary); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
+        .header { background: var(--primary); color: white; padding: 10px 20px 45px; text-align: center; border-radius: 0 0 50px 50px; }
         .container { padding: 0 15px; max-width: 480px; margin: auto; }
 
         .search-box { background: white; padding: 20px; border-radius: 20px; margin-top: -30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
@@ -41,12 +41,23 @@
 <body>
 
     <div class="header">
-        <h1>AZM ⇌ LKO EXPRESS</h1>
+        <h1>BookGadi.com</h1>
         <p>Booking Note Generator</p>
     </div>
 
     <div class="container">
         <div class="search-box">
+            <div style="display: flex; gap: 10px;">
+                <div class="input-group" style="flex: 1;">
+                    <label>CUSTOMER NAME</label>
+                    <input type="text" id="custName" placeholder="Full Name">
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label>MOBILE NUMBER</label>
+                    <input type="tel" id="custMobile" placeholder="Phone No.">
+                </div>
+            </div>
+
             <div class="input-group">
                 <label>KAHAN SE (PICKUP)</label>
                 <input type="text" id="pickup" placeholder="Enter City">
@@ -70,7 +81,6 @@
                 <div class="input-group">
                     <label>UPLOAD TICKET PHOTO (FOR AIRPORT)</label>
                     <input type="file" id="ticketPhoto" accept="image/*" style="border:none; padding:5px;">
-                    <small style="color:red; font-size:10px;">*Note: Photo link WhatsApp pe jayega</small>
                 </div>
             </div>
         </div>
@@ -137,29 +147,32 @@
             }
         }
 
-        async function confirmBooking() {
+        function confirmBooking() {
+            const name = document.getElementById('custName').value;
+            const mobile = document.getElementById('custMobile').value;
             const pickup = document.getElementById('pickup').value;
             const drop = document.getElementById('drop').value;
             const date = document.getElementById('travelDate').value;
             const time = document.getElementById('travelTime').value;
-            
             let amount = document.getElementById('p_'+serviceType).value;
 
-            if(!pickup || !drop || !date || !time || !amount) {
-                alert("Please fill all details!"); return;
+            if(!name || !mobile || !pickup || !drop || !date || !time || !amount) {
+                alert("Kripya saari details bharein!"); return;
             }
 
-            let ticketLink = "No Attachment";
-            // File Handling (Simulated)
-            const fileInput = document.getElementById('ticketPhoto');
-            if(serviceType === 'airport' && fileInput.files.length > 0) {
-                ticketLink = "Image Attached (User will send now)";
+            const hour = parseInt(time.split(':')[0]);
+            if(serviceType === 'shared' && (hour < 6 || hour >= 20)) {
+                alert("6 AM se pehle Shared booking nahi ho sakti!"); return;
             }
 
             let message = `*BOOKING NOTE*%0A-----------------------%0A`;
-            message += `*Route:* ${pickup} to ${drop}%0A*Date:* ${date}%0A*Time:* ${time}%0A*Amount:* ₹${amount}%0A*Service:* ${selectedService}%0A`;
+            message += `*Customer:* ${name}%0A`;
+            message += `*Mobile:* ${mobile}%0A`;
+            message += `*Route:* ${pickup} to ${drop}%0A`;
+            message += `*Date:* ${date}%0A*Time:* ${time}%0A`;
+            message += `*Amount:* ₹${amount}%0A`;
+            message += `*Service:* ${selectedService}%0A`;
             if(serviceType === 'shared') message += `*Seats:* ${selectedSeats.join(', ')}%0A`;
-            if(serviceType === 'airport') message += `*Ticket Status:* ${ticketLink}%0A`;
             message += `-----------------------`;
 
             window.open(`https://wa.me/919651191446?text=${message}`, '_blank');
