@@ -45,11 +45,16 @@
 
         .hidden-box { display: none; background: #eef7ff; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px dashed var(--primary); }
 
+        /* Floating Install Button */
+        #pwa-install-btn { display: none; position: fixed; top: 15px; right: 15px; background: var(--accent); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 2000; cursor: pointer; }
+
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); text-align: center; z-index: 1000; }
         .btn-confirm { background: var(--secondary); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
+
+    <button id="pwa-install-btn" onclick="triggerInstall()">📲 INSTALL APP</button>
 
     <div class="header">
         <h1>BookGadi.com</h1>
@@ -138,7 +143,26 @@
     </div>
 
     <script>
-        // PWA Service Worker Registration
+        // PWA Logic with Button
+        let deferredPrompt;
+        const installBtn = document.getElementById('pwa-install-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; // Show button when installable
+        });
+
+        function triggerInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') installBtn.style.display = 'none';
+                    deferredPrompt = null;
+                });
+            }
+        }
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').catch(err => console.log("SW Error:", err));
