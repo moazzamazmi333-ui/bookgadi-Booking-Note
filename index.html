@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+     <link rel="manifest" href="manifest.json">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BookGadi">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AZM-LKO Express Booking</title>
@@ -136,6 +142,9 @@
             document.getElementById('seatSection').style.display = (type === 'shared') ? 'block' : 'none';
             document.getElementById('airportBox').style.display = (type === 'airport') ? 'block' : 'none';
         }
+        if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
 
         function toggleSeat(s, el) {
             if (el.classList.contains('selected')) {
