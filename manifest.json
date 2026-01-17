@@ -1,6 +1,6 @@
 {
   "name": "BookGadi",
-  "short_name": "BookGadi",
+  "short_name": "BookNote",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#002b5c",
