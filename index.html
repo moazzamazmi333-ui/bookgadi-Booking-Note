@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-     <link rel="manifest" href="manifest.json">
-
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="BookGadi">
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BookGadi">
+    <meta name="theme-color" content="#002b5c">
+    
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AZM-LKO Express Booking</title>
+    
     <style>
         :root { --primary: #002b5c; --secondary: #25D366; --accent: #ff9800; --bg: #f2f5f8; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background: var(--bg); color: #333; padding-bottom: 100px; }
 
-        .header { background: var(--primary); color: white; padding: 10px 20px 45px; text-align: center; border-radius: 0 0 50px 50px; }
+        .header { background: var(--primary); color: white; padding: 15px 20px 45px; text-align: center; border-radius: 0 0 40px 40px; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .header p { margin: 0; font-size: 14px; opacity: 0.8; }
+        
         .container { padding: 0 15px; max-width: 480px; margin: auto; }
 
         .search-box { background: white; padding: 20px; border-radius: 20px; margin-top: -30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
@@ -29,10 +34,10 @@
         .card-icon { font-size: 24px; margin-right: 15px; background: #f0f4f8; padding: 10px; border-radius: 12px; }
         .card-info { flex: 1; }
         
-        .card-price-input { width: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-weight: bold; color: var(--primary); text-align: center; }
+        .card-price-input { width: 85px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-weight: bold; color: var(--primary); text-align: center; }
 
         #seatSection { display: none; background: white; padding: 20px; border-radius: 20px; margin: 15px 0; border: 1px solid #ddd; }
-        .car-layout { max-width: 220px; margin: auto; background: #f8f9fa; padding: 20px; border-radius: 40px 40px 15px 15px; border: 3px solid #ccc; position: relative; }
+        .car-layout { max-width: 220px; margin: auto; background: #f8f9fa; padding: 20px; border-radius: 30px 30px 15px 15px; border: 3px solid #ccc; position: relative; }
         .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .seat { width: 45px; height: 45px; background: white; border: 2px solid #ddd; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; font-weight: bold; }
         .seat.selected { background: var(--secondary); color: white; border-color: #128C7E; }
@@ -40,7 +45,7 @@
 
         .hidden-box { display: none; background: #eef7ff; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px dashed var(--primary); }
 
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); text-align: center; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); text-align: center; z-index: 1000; }
         .btn-confirm { background: var(--secondary); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
@@ -133,6 +138,13 @@
     </div>
 
     <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log("SW Error:", err));
+            });
+        }
+
         let selectedService = "Shared Seat", selectedSeats = [], serviceType = 'shared';
 
         function updateService(name, type, el) {
@@ -142,9 +154,6 @@
             document.getElementById('seatSection').style.display = (type === 'shared') ? 'block' : 'none';
             document.getElementById('airportBox').style.display = (type === 'airport') ? 'block' : 'none';
         }
-        if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
 
         function toggleSeat(s, el) {
             if (el.classList.contains('selected')) {
@@ -171,7 +180,7 @@
 
             const hour = parseInt(time.split(':')[0]);
             if(serviceType === 'shared' && (hour < 6 || hour >= 20)) {
-                alert("6 AM se pehle Shared booking nahi ho sakti!"); return;
+                alert("6 AM se pehle Shared booking nahi हो सकती!"); return;
             }
 
             let message = `*BOOKING NOTE*%0A-----------------------%0A`;
