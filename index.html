@@ -101,11 +101,11 @@
 
             if(!name || !price || !num || !pLoc || !dLoc) { alert("Sari details bharein!"); return; }
 
-            let msg = `*BOOKING NOTE*%0A-----------------------%0A`;
-            msg += `👤 *Customer:* ${name}%0A📞 *Mobile:* ${mob}%0A📍 *Pickup:* ${pLoc}%0A🏁 *Drop:* ${dLoc}%0A📅 *Date:* ${date}%0A⏰ *Time:* ${time}%0A💰 *Amount:* ₹${price}%0A✅ *Service:* ${sName}%0A`;
+            let msg = `*BOOKING CONFIRMED*%0A-----------------------%0A`;
+            msg += `👤 *Customer:* ${name}%0A📞 *Mobile:* ${mob}%0A✅ *Pickup:* ${pLoc}%0A✅ *Drop:* ${dLoc}%0A✅ *Date:* ${date}%0A✅ *Time:* ${time}%0A✅ *Amount:* ₹${price}%0A✅ *Service:* ${sName}%0A`;
             
             if(seats.length > 0) msg += `💺 *Seats:* ${seats.join(', ')}%0A`;
-            if(sType === 'airport') msg += `%0A⚠️ *Note:* Please attach ticket photo!%0A`;
+           // if(sType === 'airport') msg += `%0A⚠️ *Note:* Please attach ticket photo!%0A`;
             
             msg += `-----------------------%0A*BookGadi.com*`;
 
